@@ -16,6 +16,7 @@ public class AreaService {
     }
 
 
+
     public List<Area> getAll() {
         return areaRepository.findAll();
     }

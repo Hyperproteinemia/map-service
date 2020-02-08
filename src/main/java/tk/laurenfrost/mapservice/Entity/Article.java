@@ -39,6 +39,8 @@ public class Article {
     @NotEmpty
     private String heading;
 
+
+
     @NotNull
     private Instant createdWhen;
 

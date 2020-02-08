@@ -19,6 +19,14 @@ public class ArticleService {
         return articleRepository.findAll();
     }
 
+    public List<Article> getAllByUsername(String username) {
+        return articleRepository.findAllByUsername(username);
+    }
+
+    public List<Article> getAllByTag(Long tag_id) {
+        return articleRepository.findAllByTags_Id(tag_id);
+    }
+
     public Article addArticle(Article article) {
         return articleRepository.save(article);
     }
