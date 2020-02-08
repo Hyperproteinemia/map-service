@@ -88,4 +88,25 @@ public class ArticleController {
 
         return new ResponseEntity<>("Complete", HttpStatus.OK);
     }
+
+    @PostMapping("/map/article/{id}/like")
+    ResponseEntity<String> addLike(@RequestHeader(name = "username") String username,
+                                   @PathVariable Long id) {
+        Article article = articleService.getById(id);
+        article.getUsers_to_like().add(username);
+        articleService.updateArticle(article);
+        return new ResponseEntity<>("Complete", HttpStatus.OK);
+    }
+
+    @DeleteMapping("/map/article/{id}/like")
+    ResponseEntity<String> removeLike(@RequestHeader(name = "username") String username,
+                                      @PathVariable Long id) {
+        Article article = articleService.getById(id);
+        if (!article.getUsers_to_like().contains(username)) {
+            throw new UserHaveNoPermissionToModifyFile();
+        }
+        article.getUsers_to_like().remove(username);
+        articleService.updateArticle(article);
+        return new ResponseEntity<>("Complete", HttpStatus.OK);
+    }
 }
