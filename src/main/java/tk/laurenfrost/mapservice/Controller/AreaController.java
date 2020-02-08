@@ -49,7 +49,7 @@ public class AreaController {
     }
 
     @PostMapping("/map/area")
-    ResponseEntity<String> postArea(@RequestHeader(name = "username") String username,
+    ResponseEntity<Area> postArea(@RequestHeader(name = "username") String username,
                                     @RequestBody PostAreaObject postAreaObject) {
         HttpStatus httpStatus;
         Area area = postAreaObject.getArea();
@@ -69,17 +69,14 @@ public class AreaController {
 
         article = articleService.addArticle(article);
 
-
-//        tagService.updateTag();
-
         area.setArticle(article);
 
         area.setUsername(username);
 
-        Long areaId = areaService.addArea(area);
+        area = areaService.addArea(area);
         httpStatus = HttpStatus.OK;
 
-        return new ResponseEntity<>(areaId.toString(), httpStatus);
+        return new ResponseEntity<>(area, httpStatus);
 
     }
 }

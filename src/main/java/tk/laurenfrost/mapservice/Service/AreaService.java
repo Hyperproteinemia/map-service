@@ -22,10 +22,10 @@ public class AreaService {
 
     /**
      * @param area incoming area
-     * @return saved area id
+     * @return saved area
      */
-    public Long addArea(Area area) {
-        return areaRepository.save(area).getId();
+    public Area addArea(Area area) {
+        return areaRepository.save(area);
     }
 
 }
