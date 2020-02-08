@@ -14,6 +14,8 @@ public class Tag {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    private String name;
+
     @ManyToMany(mappedBy = "tags")
     private Set<Article> articles = new HashSet<>();
 
