@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tk.laurenfrost.mapservice.Entity.Article;
 import tk.laurenfrost.mapservice.Entity.Tag;
+import tk.laurenfrost.mapservice.Exceptions.UserHaveNoPermissionToModifyFile;
 import tk.laurenfrost.mapservice.Service.ArticleService;
 import tk.laurenfrost.mapservice.Service.TagService;
 import tk.laurenfrost.mapservice.dto.UpdateArticle;
@@ -66,6 +67,9 @@ public class ArticleController {
     ResponseEntity<String> patchArticle(@RequestHeader(name = "username") String username,
             @RequestBody UpdateArticle updateArticle) {
         Article article = articleService.getById(updateArticle.getArticle_id());
+        if (article.getUsername().equals(username)) {
+            throw new UserHaveNoPermissionToModifyFile();
+        }
         if (updateArticle.getNew_heading() != null) {
             article.setHeading(updateArticle.getNew_heading());
         }
