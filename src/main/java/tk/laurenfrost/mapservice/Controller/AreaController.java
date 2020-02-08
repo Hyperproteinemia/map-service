@@ -62,10 +62,9 @@ public class AreaController {
             article.getTags().add(tag);
         }
 
-
         article.setUsername(username);
 
-        article.setCreatedWhen(Instant.now());
+        article.setLastUpdate(Instant.now());
 
         article = articleService.addArticle(article);
 

@@ -15,8 +15,6 @@ public class AreaService {
         this.areaRepository = areaRepository;
     }
 
-
-
     public List<Area> getAll() {
         return areaRepository.findAll();
     }

@@ -16,8 +16,7 @@ import java.util.List;
 @RestController
 public class TagController {
 
-    final
-    TagService tagService;
+    final TagService tagService;
 
     public TagController(TagService tagService) {
         this.tagService = tagService;
