@@ -41,7 +41,7 @@ public class Article {
     private String heading;
 
     @ElementCollection
-    private Set<String> users_to_like  = new HashSet<>();
+    private Set<String> usersToLike  = new HashSet<>();
 
     @NotNull
     private Instant lastUpdate;
