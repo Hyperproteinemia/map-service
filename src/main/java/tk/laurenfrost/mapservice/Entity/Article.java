@@ -5,6 +5,9 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -18,7 +21,26 @@ public class Article {
 
     private String content;
 
-//    @ManyToMany(mappedBy = "id")
-//    Set<Tag> tags;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "article_to_tag",
+                joinColumns = {@JoinColumn(name = "article_id")},
+                inverseJoinColumns = {@JoinColumn(name = "tag_id")})
 
+    private Set<Tag> tags = new HashSet<>();
+
+    @NotEmpty
+    @NotNull
+    private String username;
+
+    @NotNull
+    @NotEmpty
+    private String heading;
+
+    @NotNull
+    @NotEmpty
+    private Instant createdWhen;
+
+    private Instant modifiedWhen;
+
+    private Instant expireDate;
 }
