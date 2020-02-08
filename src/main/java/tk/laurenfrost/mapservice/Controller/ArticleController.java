@@ -65,9 +65,9 @@ public class ArticleController {
 
     @PatchMapping("/map/article/{id}")
     ResponseEntity<String> patchArticle(@RequestHeader(name = "username") String username,
-            @RequestBody UpdateArticle updateArticle) {
-        Article article = articleService.getById(updateArticle.getArticle_id());
-        if (article.getUsername().equals(username)) {
+            @RequestBody UpdateArticle updateArticle, @PathVariable Long id) {
+        Article article = articleService.getById(id);
+        if (!article.getUsername().equals(username)) {
             throw new UserHaveNoPermissionToModifyFile();
         }
         if (updateArticle.getNew_heading() != null) {
@@ -78,6 +78,7 @@ public class ArticleController {
         }
         if (updateArticle.getNew_tags() != null) {
             article.getTags().clear();
+            articleService.updateArticle(article);
             for (String i : updateArticle.getNew_tags()) {
                 Tag tag = tagService.findByName(i);
                 article.addTag(tag);
