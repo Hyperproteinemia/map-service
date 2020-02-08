@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import tk.laurenfrost.mapservice.Entity.Area;
 import tk.laurenfrost.mapservice.Entity.Article;
 import tk.laurenfrost.mapservice.Entity.Tag;
+import tk.laurenfrost.mapservice.Exceptions.UserHaveNoPermissionToModifyFile;
 import tk.laurenfrost.mapservice.Service.AreaService;
 import tk.laurenfrost.mapservice.Service.ArticleService;
 import tk.laurenfrost.mapservice.Service.TagService;
@@ -62,10 +63,9 @@ public class AreaController {
             article.getTags().add(tag);
         }
 
-
         article.setUsername(username);
 
-        article.setCreatedWhen(Instant.now());
+        article.setLastUpdate(Instant.now());
 
         article = articleService.addArticle(article);
 
@@ -78,5 +78,17 @@ public class AreaController {
 
         return new ResponseEntity<>(area, httpStatus);
 
+    }
+
+    @DeleteMapping("map/area/{id}")
+    ResponseEntity<String> deleteArea(@RequestHeader(name = "username") String username, @PathVariable Long id) {
+        Area area = areaService.getById(id);
+
+        if (area.getUsername().equals(username)) {
+            throw new UserHaveNoPermissionToModifyFile();
+        }
+
+        areaService.removeById(id);
+        return new ResponseEntity<>("Complete", HttpStatus.OK);
     }
 }

@@ -16,8 +16,7 @@ import java.util.List;
 @RestController
 public class TagController {
 
-    final
-    TagService tagService;
+    final TagService tagService;
 
     public TagController(TagService tagService) {
         this.tagService = tagService;
@@ -25,19 +24,7 @@ public class TagController {
 
     @GetMapping("/map/tag")
     ResponseEntity<List<Tag>> getAllTags() {
-//        HttpStatus httpStatus;
-//        String jsonResponse;
-
         List<Tag> tags = tagService.getAll();
-
-//        try {
-//            ObjectMapper mapper = new ObjectMapper();
-//            jsonResponse = mapper.writeValueAsString(tags);
-//            httpStatus = HttpStatus.OK;
-//        } catch (JsonProcessingException e) {
-//            jsonResponse = "Failed";
-//            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-//        }
 
         return new ResponseEntity<>(tags, HttpStatus.OK);
     }

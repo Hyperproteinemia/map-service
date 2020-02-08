@@ -4,10 +4,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sun.istack.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.Type;
-import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -45,12 +41,25 @@ public class Article {
     private String heading;
 
     @ElementCollection
-    private List<String> users_to_like  = new ArrayList<>();
+    private Set<String> users_to_like  = new HashSet<>();
 
     @NotNull
-    private Instant createdWhen;
-
-    private Instant modifiedWhen;
+    private Instant lastUpdate;
 
     private Instant expireDate;
+
+    public void setHeading(String new_heading) {
+        lastUpdate = Instant.now();
+        heading = new_heading;
+    }
+
+    public void setContent(String new_content) {
+        lastUpdate = Instant.now();
+        content = new_content;
+    }
+
+    public void addTag(Tag tag) {
+        lastUpdate = Instant.now();
+        tags.add(tag);
+    }
 }

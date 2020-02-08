@@ -2,6 +2,7 @@ package tk.laurenfrost.mapservice.Service;
 
 import org.springframework.stereotype.Service;
 import tk.laurenfrost.mapservice.Entity.Area;
+import tk.laurenfrost.mapservice.Exceptions.AreaNotFoundException;
 import tk.laurenfrost.mapservice.Repository.AreaRepository;
 
 import java.util.List;
@@ -15,8 +16,6 @@ public class AreaService {
         this.areaRepository = areaRepository;
     }
 
-
-
     public List<Area> getAll() {
         return areaRepository.findAll();
     }
@@ -29,4 +28,11 @@ public class AreaService {
         return areaRepository.save(area);
     }
 
+    public Area getById(Long id) {
+        return areaRepository.findById(id).orElseThrow(AreaNotFoundException::new);
+    }
+
+    public void removeById(Long id) {
+        areaRepository.deleteById(id);
+    }
 }
