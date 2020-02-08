@@ -2,16 +2,19 @@ package tk.laurenfrost.mapservice.Entity;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
 public class Tag {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+
+    @ManyToMany(mappedBy = "tags")
+    private Set<Article> articles = new HashSet<>();
 
 }
