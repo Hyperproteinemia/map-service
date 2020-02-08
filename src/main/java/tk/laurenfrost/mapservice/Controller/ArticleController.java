@@ -94,7 +94,7 @@ public class ArticleController {
     ResponseEntity<String> addLike(@RequestHeader(name = "username") String username,
                                    @PathVariable Long id) {
         Article article = articleService.getById(id);
-        article.getUsers_to_like().add(username);
+        article.getUsersToLike().add(username);
         articleService.updateArticle(article);
         return new ResponseEntity<>("Complete", HttpStatus.OK);
     }
@@ -103,10 +103,10 @@ public class ArticleController {
     ResponseEntity<String> removeLike(@RequestHeader(name = "username") String username,
                                       @PathVariable Long id) {
         Article article = articleService.getById(id);
-        if (!article.getUsers_to_like().contains(username)) {
+        if (!article.getUsersToLike().contains(username)) {
             throw new UserHaveNoPermissionToModifyFile();
         }
-        article.getUsers_to_like().remove(username);
+        article.getUsersToLike().remove(username);
         articleService.updateArticle(article);
         return new ResponseEntity<>("Complete", HttpStatus.OK);
     }
