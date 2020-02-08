@@ -18,4 +18,17 @@ public class TagService {
     public List<Tag> getAll() {
         return tagRepository.findAll();
     }
+
+    public Tag findByName(String name) {
+        return tagRepository.findByName(name);
+    }
+
+    /**
+     * @param tag incoming tag
+     * @return saved tag
+     */
+    public Tag addTag(Tag tag) {
+        return tagRepository.save(tag);
+    }
+
 }

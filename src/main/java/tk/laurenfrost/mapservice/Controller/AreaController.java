@@ -4,21 +4,29 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tk.laurenfrost.mapservice.Entity.Area;
+import tk.laurenfrost.mapservice.Entity.Article;
+import tk.laurenfrost.mapservice.Entity.Tag;
 import tk.laurenfrost.mapservice.Service.AreaService;
+import tk.laurenfrost.mapservice.Service.ArticleService;
+import tk.laurenfrost.mapservice.Service.TagService;
+import tk.laurenfrost.mapservice.dto.PostAreaObject;
 
+import java.time.Instant;
 import java.util.List;
 
 @RestController
 public class AreaController {
 
-    final
-    AreaService areaService;
+    private final AreaService areaService;
+    private final TagService tagService;
+    private ArticleService articleService;
 
-    public AreaController(AreaService areaService) {
+    public AreaController(AreaService areaService, TagService tagService, ArticleService articleService) {
         this.areaService = areaService;
+        this.tagService = tagService;
+        this.articleService = articleService;
     }
 
     @GetMapping("/map/area")
@@ -38,5 +46,40 @@ public class AreaController {
         }
 
         return new ResponseEntity<>(jsonResponse, httpStatus);
+    }
+
+    @PostMapping("/map/area")
+    ResponseEntity<String> postArea(@RequestHeader(name = "username") String username,
+                                    @RequestBody PostAreaObject postAreaObject) {
+        HttpStatus httpStatus;
+        Area area = postAreaObject.getArea();
+        Article article = postAreaObject.getArticle();
+        List<Tag> tags = postAreaObject.getTags();
+
+        for (Tag tag: tags) {
+            // TODO: optimize
+            tag = tagService.findByName(tag.getName());
+            article.getTags().add(tag);
+        }
+
+
+        article.setUsername(username);
+
+        article.setCreatedWhen(Instant.now());
+
+        article = articleService.addArticle(article);
+
+
+//        tagService.updateTag();
+
+        area.setArticle(article);
+
+        area.setUsername(username);
+
+        Long areaId = areaService.addArea(area);
+        httpStatus = HttpStatus.OK;
+
+        return new ResponseEntity<>(areaId.toString(), httpStatus);
+
     }
 }

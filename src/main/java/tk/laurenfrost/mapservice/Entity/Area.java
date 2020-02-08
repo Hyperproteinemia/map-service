@@ -18,6 +18,8 @@ public class Area {
     private float x;
     private float y;
 
+    private float radius;
+
     private String username;
 
     @OneToOne

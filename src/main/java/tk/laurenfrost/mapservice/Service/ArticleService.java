@@ -18,4 +18,8 @@ public class ArticleService {
     public List<Article> getAll() {
         return articleRepository.findAll();
     }
+
+    public Article addArticle(Article article) {
+        return articleRepository.save(article);
+    }
 }
