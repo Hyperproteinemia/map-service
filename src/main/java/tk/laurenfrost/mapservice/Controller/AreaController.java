@@ -41,7 +41,6 @@ public class AreaController {
         for (Area area : areas) {
             AreaArticleId areaArticleId = new AreaArticleId();
             areaArticleId.setArticleId(area.getArticle().getId());
-            area.setArticle(null);
             areaArticleId.setArea(area);
             areaArticleIds.add(areaArticleId);
         }
