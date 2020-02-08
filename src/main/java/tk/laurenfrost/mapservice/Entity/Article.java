@@ -1,7 +1,11 @@
 package tk.laurenfrost.mapservice.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
 import lombok.Data;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -15,7 +19,6 @@ public class Article {
 
     @Id
     @NotNull
-    @NotEmpty
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
@@ -25,7 +28,7 @@ public class Article {
     @JoinTable(name = "article_to_tag",
                 joinColumns = {@JoinColumn(name = "article_id")},
                 inverseJoinColumns = {@JoinColumn(name = "tag_id")})
-
+    @JsonBackReference
     private Set<Tag> tags = new HashSet<>();
 
     @NotEmpty
@@ -37,7 +40,6 @@ public class Article {
     private String heading;
 
     @NotNull
-    @NotEmpty
     private Instant createdWhen;
 
     private Instant modifiedWhen;

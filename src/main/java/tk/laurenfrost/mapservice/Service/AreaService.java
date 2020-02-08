@@ -19,4 +19,13 @@ public class AreaService {
     public List<Area> getAll() {
         return areaRepository.findAll();
     }
+
+    /**
+     * @param area incoming area
+     * @return saved area id
+     */
+    public Long addArea(Area area) {
+        return areaRepository.save(area).getId();
+    }
+
 }

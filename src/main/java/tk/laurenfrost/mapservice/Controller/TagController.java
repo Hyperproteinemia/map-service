@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tk.laurenfrost.mapservice.Entity.Tag;
 import tk.laurenfrost.mapservice.Service.TagService;
@@ -22,15 +24,35 @@ public class TagController {
     }
 
     @GetMapping("/map/tag")
-    ResponseEntity<String> getAllTags() {
-        HttpStatus httpStatus;
-        String jsonResponse;
+    ResponseEntity<List<Tag>> getAllTags() {
+//        HttpStatus httpStatus;
+//        String jsonResponse;
 
         List<Tag> tags = tagService.getAll();
 
+//        try {
+//            ObjectMapper mapper = new ObjectMapper();
+//            jsonResponse = mapper.writeValueAsString(tags);
+//            httpStatus = HttpStatus.OK;
+//        } catch (JsonProcessingException e) {
+//            jsonResponse = "Failed";
+//            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+//        }
+
+        return new ResponseEntity<>(tags, HttpStatus.OK);
+    }
+
+    @PostMapping("/map/tag")
+    ResponseEntity<String> postTag(@RequestBody Tag tag) {
+
+        tag = tagService.addTag(tag);
+
+        HttpStatus httpStatus;
+        String jsonResponse;
+
         try {
             ObjectMapper mapper = new ObjectMapper();
-            jsonResponse = mapper.writeValueAsString(tags);
+            jsonResponse = mapper.writeValueAsString(tag);
             httpStatus = HttpStatus.OK;
         } catch (JsonProcessingException e) {
             jsonResponse = "Failed";
