@@ -25,11 +25,11 @@ public class ArticleController {
         HttpStatus httpStatus;
         String jsonResponse;
 
-        List<Article> articles = articleService.getAllById(id);
+        Article article = articleService.getById(id);
 
         try {
             ObjectMapper mapper = new ObjectMapper();
-            jsonResponse = mapper.writeValueAsString(articles);
+            jsonResponse = mapper.writeValueAsString(article);
             httpStatus = HttpStatus.OK;
         } catch (JsonProcessingException e) {
             jsonResponse = "getArticlesById failed, die please";
@@ -52,6 +52,25 @@ public class ArticleController {
             httpStatus = HttpStatus.OK;
         } catch (JsonProcessingException e) {
             jsonResponse = "Failed";
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+
+        return new ResponseEntity<>(jsonResponse, httpStatus);
+    }
+
+    @PatchMapping("/map/article{id}")
+    ResponseEntity<String> patchArticle(@PathVariable Long id) {
+        HttpStatus httpStatus;
+        String jsonResponse;
+
+        Article article = articleService.getById(id);
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            jsonResponse = mapper.writeValueAsString(article);
+            httpStatus = HttpStatus.OK;
+        } catch (JsonProcessingException e) {
+            jsonResponse = "getArticlesById failed, die please";
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
         }
 

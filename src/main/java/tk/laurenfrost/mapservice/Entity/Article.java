@@ -51,4 +51,8 @@ public class Article {
     private Instant modifiedWhen;
 
     private Instant expireDate;
+
+    public void setHeading(String new_heading) {
+
+    }
 }

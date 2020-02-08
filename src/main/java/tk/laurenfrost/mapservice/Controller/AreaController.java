@@ -69,9 +69,6 @@ public class AreaController {
 
         article = articleService.addArticle(article);
 
-
-//        tagService.updateTag();
-
         area.setArticle(article);
 
         area.setUsername(username);

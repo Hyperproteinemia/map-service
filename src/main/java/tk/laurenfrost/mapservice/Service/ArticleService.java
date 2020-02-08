@@ -2,6 +2,7 @@ package tk.laurenfrost.mapservice.Service;
 
 import org.springframework.stereotype.Service;
 import tk.laurenfrost.mapservice.Entity.Article;
+import tk.laurenfrost.mapservice.Exceptions.ArticleNotFoundException;
 import tk.laurenfrost.mapservice.Repository.ArticleRepository;
 
 import java.util.List;
@@ -19,8 +20,8 @@ public class ArticleService {
         return articleRepository.findAll();
     }
 
-    public List<Article> getAllById(Long id) {
-        return articleRepository.findAllById(id);
+    public Article getById(Long id) {
+        return articleRepository.findById(id).orElseThrow(ArticleNotFoundException::new);
     }
 
     public List<Article> getAllByUsername(String username) {
