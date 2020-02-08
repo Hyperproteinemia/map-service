@@ -14,4 +14,6 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     @Query("select distinct article from Article " +
             "article join article.tags tag where tag.name = :tag_name")*/
     List<Article> findAllByTags_Id(Long tag_id);
+
+    List<Article> findAllById(Long id);
 }

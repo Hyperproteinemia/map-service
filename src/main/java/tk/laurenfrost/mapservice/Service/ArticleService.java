@@ -19,6 +19,10 @@ public class ArticleService {
         return articleRepository.findAll();
     }
 
+    public List<Article> getAllById(Long id) {
+        return articleRepository.findAllById(id);
+    }
+
     public List<Article> getAllByUsername(String username) {
         return articleRepository.findAllByUsername(username);
     }

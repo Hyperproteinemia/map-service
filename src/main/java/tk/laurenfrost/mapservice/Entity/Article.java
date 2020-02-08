@@ -6,11 +6,14 @@ import com.sun.istack.NotNull;
 import lombok.Data;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -39,7 +42,8 @@ public class Article {
     @NotEmpty
     private String heading;
 
-
+    @ElementCollection
+    private List<String> users_to_like  = new ArrayList<>();
 
     @NotNull
     private Instant createdWhen;

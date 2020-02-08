@@ -11,9 +11,11 @@ import tk.laurenfrost.mapservice.Entity.Tag;
 import tk.laurenfrost.mapservice.Service.AreaService;
 import tk.laurenfrost.mapservice.Service.ArticleService;
 import tk.laurenfrost.mapservice.Service.TagService;
+import tk.laurenfrost.mapservice.dto.AreaArticleId;
 import tk.laurenfrost.mapservice.dto.PostAreaObject;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -30,22 +32,20 @@ public class AreaController {
     }
 
     @GetMapping("/map/area")
-    ResponseEntity<String> getAllAreas() {
-        HttpStatus httpStatus;
-        String jsonResponse;
-
+    ResponseEntity<List<AreaArticleId>> getAllAreas() {
         List<Area> areas = areaService.getAll();
+        ArrayList<AreaArticleId> areaArticleIds = new ArrayList<>(areas.size());
 
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            jsonResponse = mapper.writeValueAsString(areas);
-            httpStatus = HttpStatus.OK;
-        } catch (JsonProcessingException e) {
-            jsonResponse = "Failed";
-            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+        int i = 0;
+        for (Area area : areas) {
+            AreaArticleId areaArticleId = new AreaArticleId();
+            areaArticleId.setArticleId(area.getArticle().getId());
+            area.setArticle(null);
+            areaArticleId.setArea(area);
+            areaArticleIds.add(areaArticleId);
         }
 
-        return new ResponseEntity<>(jsonResponse, httpStatus);
+        return new ResponseEntity<>(areaArticleIds, HttpStatus.OK);
     }
 
     @PostMapping("/map/area")

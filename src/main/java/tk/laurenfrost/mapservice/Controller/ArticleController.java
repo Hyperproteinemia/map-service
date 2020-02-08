@@ -20,6 +20,25 @@ public class ArticleController {
         this.articleService = articleService;
     }
 
+    @GetMapping("/map/article/{id}")
+    ResponseEntity<String> getArticlesById(@PathVariable Long id) {
+        HttpStatus httpStatus;
+        String jsonResponse;
+
+        List<Article> articles = articleService.getAllById(id);
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            jsonResponse = mapper.writeValueAsString(articles);
+            httpStatus = HttpStatus.OK;
+        } catch (JsonProcessingException e) {
+            jsonResponse = "getArticlesById failed, die please";
+            httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+
+        return new ResponseEntity<>(jsonResponse, httpStatus);
+    }
+
     @GetMapping("/map/article")
     ResponseEntity<String> getAllArticles() {
         HttpStatus httpStatus;
