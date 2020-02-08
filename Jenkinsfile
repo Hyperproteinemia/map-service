@@ -47,7 +47,7 @@ pipeline {
                 sh 'ssh Rinslet docker stop maps || true'
                 sh 'ssh Rinslet docker image rm miraclewisp/hperproteinaemia-maps || true'
                 sh 'ssh Rinslet docker pull miraclewisp/hperproteinaemia-maps'
-                sh 'ssh Rinslet docker run --rm --name maps -d -p 8081:8081 miraclewisp/hperproteinaemia-maps'
+                sh 'ssh Rinslet docker run --rm --name maps -d -p 8082:8082 miraclewisp/hperproteinaemia-maps'
             }
         }
     }
