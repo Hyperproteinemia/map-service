@@ -29,7 +29,6 @@ public class Article {
     @JoinTable(name = "article_to_tag",
                 joinColumns = {@JoinColumn(name = "article_id")},
                 inverseJoinColumns = {@JoinColumn(name = "tag_id")})
-    @JsonBackReference
     private Set<Tag> tags = new HashSet<>();
 
     @NotEmpty
